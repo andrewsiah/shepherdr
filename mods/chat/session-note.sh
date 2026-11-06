@@ -5,6 +5,9 @@
 # run, agent tab) gets Shepherdr's Reactions for its space: when and how to react, or never
 # (herdr-task _session-note, which notes on its terminal what it was told). Outside Herdr it says nothing.
 [ -n "${HC_TERMINAL_ID:-}" ] || exit 0
+# The shared Codex daemon holds its log, not this terminal's foreground process.
+# Save the exact SessionStart identity before emitting the hook's context response.
+python3 "$(dirname "$0")/session-log.py" capture 2>/dev/null || true
 extra=""
 if command -v herdr-task >/dev/null 2>&1; then
   extra=$(herdr-task _session-note "$HC_TERMINAL_ID" 2>/dev/null)

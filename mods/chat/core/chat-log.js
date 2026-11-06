@@ -27,6 +27,9 @@ for p in "$pid" $(kids "$pid"); do
     [ -n "$f" ] && { echo "$f"; exit 0; }
   fi
 done
+if [ "$kind" = codex ]; then
+  python3 "\${HERDR_APP_HOME:-$HOME/.config/herdr-app}/mods/chat/session-log.py" find "$pid" 2>/dev/null
+fi
 true`;
 
 // Reads a log on the agent's machine, sending back only what the chat shows. Each kept line
