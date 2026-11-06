@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -15,7 +16,9 @@ def process_start(pid):
 
 
 def terminal_info(terminal):
-    return json.loads(subprocess.check_output(["hc", "get", terminal, "--json"],
+    # Remote exec and daemon hooks need not load the user's interactive PATH.
+    hc = shutil.which("hc") or str(Path.home() / ".local/bin/hc")
+    return json.loads(subprocess.check_output([hc, "get", terminal, "--json"],
                                              text=True, timeout=2))
 
 
